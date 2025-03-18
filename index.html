@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dollar Dasher</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Basic Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      /* Light blue background */
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    /* Header and Navigation */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #0073e6;
+      /* Blue background for header */
+      color: white;
+    }
+
+    header .logo img {
+      width: 40px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffcc00;
+    }
+
+    /* Main Content */
+    .main-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .heading {
+      font-size: 2.5em;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .code {
+      font-size: 2em;
+      font-weight: bold;
+      background-color: #0073e6;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: inline-block;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .copy-btn {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      background-color: #ffcc00;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .copy-btn:hover {
+      background-color: #ff9900;
+    }
+
+    .loading {
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      color: #0073e6;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
+
+      .heading {
+        font-size: 2em;
+      }
+
+      .code {
+        font-size: 1.5em;
+      }
+
+      .copy-btn {
+        font-size: 1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .heading {
+        font-size: 1.5em;
+      }
+
+      .code {
+        font-size: 1.2em;
+        padding: 8px 16px;
+      }
+
+      .copy-btn {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://res.cloudinary.com/drn0pl42m/image/upload/v1742295089/DD_nqmpwf.png" alt="Logo">
+    </div>
+    <nav>
+      <a href="#contact">Contact Us</a>
+      <a href="#updates">App Updates</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <div class="main-content">
+    <div class="heading">Short Link Confirmation Code</div>
+    <div class="loading" id="loading-message">Loading code...</div>
+    <div class="code" id="code"></div>
+    <button class="copy-btn" id="copy-btn">
+      <i class="fas fa-clipboard"></i> Copy Code
+    </button>
+  </div>
+
+  <script type="module">
+    // Fetch data from your backend
+    async function fetchData() {
+      const dataList = document.getElementById('code');
+      const loadingMessage = document.getElementById('loading-message');
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('id');
+
+      if (!userId) {
+        loadingMessage.textContent = 'No ID provided in the URL!';
+        return;
+      }
+
+      try {
+        // Call your backend to fetch user data
+        const backendUrl = 'https://dollar-dasher-server.vercel.app';
+        const response = await fetch(`${backendUrl}/api/user-data?userId=${userId}`);
+        const data = await response.json();
+
+        if (data.LinkCode) {
+          dataList.textContent = data.LinkCode;
+          loadingMessage.style.display = 'none';
+        } else {
+          dataList.textContent = 'No code found!';
+          loadingMessage.style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        loadingMessage.textContent = 'Failed to load code. Please try again.';
+      }
+    }
+
+    fetchData();
+
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      const codeText = document.getElementById('code').textContent;
+      if (codeText) {
+        navigator.clipboard.writeText(codeText).then(() => {
+          alert('Code copied to clipboard!');
+        }).catch((error) => {
+          alert('Failed to copy code: ' + error);
+        });
+      } else {
+        alert('No code to copy!');
+      }
+    });
+  </script>
+</body>
+</html>
