@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dollar Dasher</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/189/189672.png">
+  <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/189/189672.png">
   <style>
-    /* Basic Styles */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f8ff;
-      /* Light blue background */
+    /* Basic Reset */
+    * {
       margin: 0;
       padding: 0;
-      color: #333;
+      box-sizing: border-box;
     }
 
-    /* Header and Navigation */
+    body {
+      font-family: 'Lato', Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #1e1e1e;
+    }
+
+    /* Navbar */
     header {
+      height: 92px;
+      width: 100%;
+      background-color: #0A1931;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px;
-      background-color: #0073e6;
-      /* Blue background for header */
-      color: white;
+      padding: 0 80px;
     }
 
     header .logo img {
@@ -32,13 +37,15 @@
 
     nav {
       display: flex;
-      gap: 20px;
+      gap: 18px;
     }
 
     nav a {
-      text-decoration: none;
       color: white;
-      font-weight: bold;
+      font-size: 12px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      text-decoration: none;
       transition: color 0.3s;
     }
 
@@ -49,54 +56,50 @@
     /* Main Content */
     .main-content {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 80vh;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 154px;
       text-align: center;
-      padding: 20px;
     }
 
     .heading {
-      font-size: 2.5em;
-      color: #333;
-      margin-bottom: 20px;
+      font-size: 42px;
+      font-weight: 500;
+      color: #1e1e1e;
+      margin-bottom: 246px;
     }
 
-    .code {
-      font-size: 2em;
-      font-weight: bold;
-      background-color: #0073e6;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      display: inline-block;
-      min-width: 200px;
-      text-align: center;
+    .code-box {
+      font-size: 42px;
+      font-weight: 500;
+      background-color: #0CE001;
+      color: #1e1e1e;
+      padding: 32px 62px;
+      border-radius: 20px;
+      margin-bottom: 42px;
     }
 
     .copy-btn {
-      padding: 10px 20px;
-      font-size: 1.2em;
-      background-color: #ffcc00;
-      color: #333;
+      font-size: 20px;
+      font-weight: 500;
+      background-color: #C8E814;
+      color: #1e1e1e;
+      padding: 8px 16px;
+      border-radius: 30px;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      transition: background-color 0.3s;
     }
 
     .copy-btn:hover {
-      background-color: #ff9900;
+      background-color: #ffcc00;
     }
 
     .loading {
-      margin-bottom: 20px;
       font-size: 1.5em;
       color: #0073e6;
       animation: blink 1s infinite;
@@ -111,39 +114,45 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       header {
-        flex-direction: column;
-        align-items: center;
+        padding: 0 20px;
       }
 
       .main-content {
-        padding: 20px;
+        padding-top: 100px;
       }
 
       .heading {
-        font-size: 2em;
+        font-size: 32px;
+        margin-bottom: 150px;
       }
 
-      .code {
-        font-size: 1.5em;
+      .code-box {
+        font-size: 32px;
+        padding: 20px 40px;
       }
 
       .copy-btn {
-        font-size: 1em;
+        font-size: 16px;
       }
     }
 
     @media (max-width: 480px) {
-      .heading {
-        font-size: 1.5em;
+      header {
+        padding: 0 10px;
       }
 
-      .code {
-        font-size: 1.2em;
-        padding: 8px 16px;
+      .heading {
+        font-size: 24px;
+        margin-bottom: 100px;
+      }
+
+      .code-box {
+        font-size: 24px;
+        padding: 15px 30px;
       }
 
       .copy-btn {
-        font-size: 0.9em;
+        font-size: 14px;
       }
     }
   </style>
@@ -151,7 +160,7 @@
 <body>
   <header>
     <div class="logo">
-      <img src="https://res.cloudinary.com/drn0pl42m/image/upload/v1742295089/DD_nqmpwf.png" alt="Logo">
+      <img src="https://res.cloudinary.com/drn0pl42m/image/upload/v1742295089/DD_nqmpwf.png" alt="Dollar Dasher Logo">
     </div>
     <nav>
       <a href="#contact">Contact Us</a>
@@ -161,9 +170,9 @@
   </header>
 
   <div class="main-content">
-    <div class="heading">Short Link Confirmation Code</div>
+    <div class="heading">Short Link Verification Code</div>
     <div class="loading" id="loading-message">Loading code...</div>
-    <div class="code" id="code"></div>
+    <div class="code-box" id="code">Xt10ASDh</div>
     <button class="copy-btn" id="copy-btn">
       <i class="fas fa-clipboard"></i> Copy Code
     </button>
