@@ -201,7 +201,7 @@
 <body>
   <header>
     <div class="logo">
-      <img src="https://res.cloudinary.com/drn0pl42m/image/upload/v1742381884/Group_1_1_qjhn7o.png" alt="Dollar Dasher Logo">
+      <img src="https://res.cloudinary.com/drn0pl42m/image/upload/v1742353791/Group_1_z74idg.png" alt="Dollar Dasher Logo">
     </div>
     <nav>
       <a href="#contact">Contact Us</a>
@@ -213,8 +213,8 @@
   <div class="main-content">
     <div class="heading">Short Link Verification Code</div>
     <div class="loading" id="loading-message">Loading code...</div>
-    <div class="error-message" id="error-message">No ID provided in the URL!</div>
-    <div class="code-box" id="code">Xt10ASDh</div>
+    <div class="error-message" id="error-message">No ID or token provided in the URL!</div>
+    <div class="code-box" id="code"></div>
     <button class="copy-btn" id="copy-btn">
       <img src="https://res.cloudinary.com/drn0pl42m/image/upload/v1742353791/Copy_caetku.png" alt="Copy Icon" style="width: 20px; height: 20px;"> Copy Code
     </button>
@@ -230,18 +230,26 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get('id');
+      const token = urlParams.get('token');
 
-      if (!userId) {
+      if (!userId || !token) {
         loadingMessage.style.display = 'none';
         errorMessage.style.display = 'block';
         return;
       }
 
       try {
-        // Call your backend to fetch user data
+        // Call your backend to validate the token and fetch user data
         const backendUrl = 'https://dollar-dasher-server.vercel.app';
-        const response = await fetch(`${backendUrl}/api/user-data?userId=${userId}`);
+        const response = await fetch(`${backendUrl}/api/user-data?userId=${userId}&token=${token}`);
         const data = await response.json();
+
+        if (data.error) {
+          errorMessage.textContent = data.error;
+          errorMessage.style.display = 'block';
+          loadingMessage.style.display = 'none';
+          return;
+        }
 
         if (data.LinkCode) {
           dataList.textContent = data.LinkCode;
